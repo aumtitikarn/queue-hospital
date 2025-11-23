@@ -167,18 +167,6 @@ export default function QueuePage() {
             <div className="text-center py-8 text-gray-600">
               กำลังโหลดแผนก...
             </div>
-          ) : !departments || departments.length === 0 ? (
-            <div className="rounded-lg bg-yellow-50 border border-yellow-200 p-4 mb-6">
-              <p className="text-yellow-800">
-                ⚠️ ยังไม่มีแผนก กรุณาเพิ่มแผนกก่อน
-              </p>
-              <Link
-                href="/admin/departments/new"
-                className="mt-2 inline-block text-blue-600 hover:text-blue-700"
-              >
-                เพิ่มแผนก →
-              </Link>
-            </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -195,15 +183,31 @@ export default function QueuePage() {
                   onChange={(e) =>
                     setFormData({ ...formData, departmentId: e.target.value })
                   }
-                  className="w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                  disabled={!departments || departments.length === 0}
+                  className="w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-200 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 >
-                  <option value="">เลือกแผนก</option>
-                  {departments.map((dept) => (
+                  <option value="">
+                    {!departments || departments.length === 0 
+                      ? 'ยังไม่มีแผนก' 
+                      : 'เลือกแผนก'}
+                  </option>
+                  {departments?.map((dept) => (
                     <option key={dept.id} value={dept.id}>
                       {dept.name}
                     </option>
                   ))}
                 </select>
+                {(!departments || departments.length === 0) && (
+                  <p className="mt-2 text-sm text-gray-500">
+                    กรุณาเพิ่มแผนกที่{' '}
+                    <Link
+                      href="/admin/departments/new"
+                      className="text-blue-600 hover:text-blue-700 underline"
+                    >
+                      หน้าจัดการ
+                    </Link>
+                  </p>
+                )}
               </div>
 
               <div>
