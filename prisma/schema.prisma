@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Department {
+  id          String       @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  queues      QueueTicket[]
+
+  @@map("departments")
+}
+
+model QueueTicket {
+  id           String     @id @default(cuid())
+  queueNumber  Int
+  patientName  String
+  phoneNumber  String?
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  status       String     @default("waiting") // waiting, serving, completed, cancelled
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("queue_tickets")
+  @@index([departmentId])
+  @@index([status])
+}
