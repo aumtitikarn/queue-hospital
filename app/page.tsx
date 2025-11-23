@@ -197,17 +197,6 @@ export default function QueuePage() {
                     </option>
                   ))}
                 </select>
-                {(!departments || departments.length === 0) && (
-                  <p className="mt-2 text-sm text-gray-500">
-                    กรุณาเพิ่มแผนกที่{' '}
-                    <Link
-                      href="/admin/departments/new"
-                      className="text-blue-600 hover:text-blue-700 underline"
-                    >
-                      หน้าจัดการ
-                    </Link>
-                  </p>
-                )}
               </div>
 
               <div>
